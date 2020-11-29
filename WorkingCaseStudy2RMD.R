@@ -1,0 +1,650 @@
+#install package and load library
+#install.packages("class")
+#install.packages("caret")
+#install.packages("e1071")
+library(class)
+library(caret)
+library(e1071)
+library(tidyverse)
+library(scales)
+library(ggplot2)
+
+
+
+
+CaseStudy2_notnadata <- CaseStudy2_data %>% filter(!is.na(Attrition)) #Filter out rows with missing data
+
+view(CaseStudy2_notnadata)
+
+
+CS2YesAttrition <- CaseStudy2_data %>% filter(Attrition == "Yes")
+view(CS2YesAttrition)
+
+
+
+CaseStudy2_data_asFactor <- as.factor(CaseStudy2_data$BusinessTravel)
+
+summary(CaseStudy2_data_asFactor)
+
+
+
+
+CS2YesAttritselect <- CS2YesAttrition %>% select(Age, DistanceFromHome, EnvironmentSatisfaction, HourlyRate,
+JobSatisfaction, Education, DailyRate, JobInvolvement, MonthlyIncome, JobLevel, MonthlyRate, NumCompaniesWorked,
+PercentSalaryHike, PerformanceRating, RelationshipSatisfaction, YearsWithCurrManager,WorkLifeBalance, YearsInCurrentRole, YearsAtCompany, StockOptionLevel)
+
+view(CS2YesAttritselect)
+
+CS2YesAttrition %>% ggplot(mapping = aes(x = JobRole, fill = JobRole)) + geom_bar() + coord_polar() + ggtitle("Polar Bar Chart of Job Role - Yes Attrition Counts")
+
+
+
+
+CS2Attritselect <- CaseStudy2_data %>% select(Age, DistanceFromHome, EnvironmentSatisfaction, HourlyRate,
+                                                 JobSatisfaction, Education, DailyRate, JobInvolvement, MonthlyIncome, JobLevel, MonthlyRate, NumCompaniesWorked,
+                                                 PercentSalaryHike, PerformanceRating, EmployeeCount, WorkLifeBalance, YearsWithCurrManager, RelationshipSatisfaction)
+
+view(CS2Attritselect)
+
+
+
+
+CS2YesAttritselectAs_Factor <- as.factor(CaseStudy2_data[4, 6, 9, 13, 17, 19])
+
+
+                                        
+View(CS2YesAttritselectAs_Factor)
+
+
+
+
+
+
+
+
+# Possible to make as.factors
+
+library(tidyverse)
+library(scales)
+
+df <- data.frame(
+  Region = as.factor(c("Wellington", "Bay of Plenty", "Bay of Plenty",
+                       "Manawatu-Wanganui", "Auckland", "Wellington",
+                       "Canterbury", "Northland", "Canterbury", "Canterbury",
+                       "Canterbury", "Wellington", "Hawke's Bay",
+                       "Bay of Plenty", "Waikato", "Manawatu-Wanganui", "Canterbury",
+                       "Wellington", "Auckland", "Manawatu-Wanganui"))
+)
+
+
+# Percent AGE Bar graph
+
+
+CS2YesAttritselect %>% 
+  count(Age) %>% 
+  mutate(prop = n/sum(n)) %>% 
+  ggplot(aes(x = Age, y = prop)) +
+  geom_col(fill = "#FF7F24") +
+  geom_text(aes(label = percent(prop)), vjust = -1) + ggtitle("Percent of Age in YES Attrition") +
+  coord_cartesian(clip = "off") +
+  scale_y_continuous(labels = percent_format()) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle=45, hjust=1, vjust = 1),
+        axis.title = element_blank(),
+        plot.margin = margin(t = 20, r = 10, b = 10, l = 10))
+
+
+
+  # Percent DistanceFromHome Bar graph
+  
+  
+  CS2YesAttritselect %>% 
+    count(DistanceFromHome) %>% 
+    mutate(prop = n/sum(n)) %>% 
+    ggplot(aes(x = DistanceFromHome, y = prop)) +
+    geom_col(fill = "deepskyblue") +
+    geom_text(aes(label = percent(prop)), vjust = -1) + ggtitle("Percent of DistanceFromHome in YES Attrition") +
+    coord_cartesian(clip = "off") +
+    scale_y_continuous(labels = percent_format()) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle=45, hjust=1, vjust = 1),
+          axis.title = element_blank(),
+          plot.margin = margin(t = 20, r = 10, b = 10, l = 10))
+
+
+
+  # Percent EnvironmentSatisfaction Bar graph
+  
+  
+  CS2YesAttritselect %>% 
+    count(EnvironmentSatisfaction) %>% 
+    mutate(prop = n/sum(n)) %>% 
+    ggplot(aes(x = EnvironmentSatisfaction, y = prop)) +
+    geom_col(fill = "darkviolet") +
+    geom_text(aes(label = percent(prop)), vjust = -1) + ggtitle("Percent of EnvironmentSatisfaction in YES Attrition") +
+    coord_cartesian(clip = "off") +
+    scale_y_continuous(labels = percent_format()) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle=45, hjust=1, vjust = 1),
+          axis.title = element_blank(),
+          plot.margin = margin(t = 20, r = 10, b = 10, l = 10))
+
+
+
+
+
+  
+  # Percent HourlyRate Bar graph
+  
+  
+  CS2YesAttritselect %>% 
+    count(HourlyRate) %>% 
+    mutate(prop = n/sum(n)) %>% 
+    ggplot(aes(x = HourlyRate, y = prop)) +
+    geom_col(fill = "yellow") +
+    geom_text(aes(label = percent(prop)), vjust = -1) + ggtitle("Percent of HourlyRate in YES Attrition") +
+    coord_cartesian(clip = "off") +
+    scale_y_continuous(labels = percent_format()) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle=45, hjust=1, vjust = 1),
+          axis.title = element_blank(),
+          plot.margin = margin(t = 20, r = 10, b = 10, l = 10))
+
+  
+  
+
+  # Percent JobSatisfaction Bar graph
+  
+  
+  CS2YesAttritselect %>% 
+    count(JobSatisfaction) %>% 
+    mutate(prop = n/sum(n)) %>% 
+    ggplot(aes(x = JobSatisfaction, y = prop)) +
+    geom_col(fill = "red") +
+    geom_text(aes(label = percent(prop)), vjust = -1) + ggtitle("Percent of JobSatisfaction in YES Attrition") +
+    coord_cartesian(clip = "off") +
+    scale_y_continuous(labels = percent_format()) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle=45, hjust=1, vjust = 1),
+          axis.title = element_blank(),
+          plot.margin = margin(t = 20, r = 10, b = 10, l = 10))
+
+
+
+
+  # Percent Education Bar graph
+  
+  
+  CS2YesAttritselect %>% 
+    count(Education) %>% 
+    mutate(prop = n/sum(n)) %>% 
+    ggplot(aes(x = Education, y = prop)) +
+    geom_col(fill = "springgreen") +
+    geom_text(aes(label = percent(prop)), vjust = -1) + ggtitle("Percent of Education in YES Attrition") +
+    coord_cartesian(clip = "off") +
+    scale_y_continuous(labels = percent_format()) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle=45, hjust=1, vjust = 1),
+          axis.title = element_blank(),
+          plot.margin = margin(t = 20, r = 10, b = 10, l = 10))
+
+
+
+
+  # Percent JobInvolvement Bar graph
+  
+  
+  CS2YesAttritselect %>% 
+    count(JobInvolvement) %>% 
+    mutate(prop = n/sum(n)) %>% 
+    ggplot(aes(x = JobInvolvement, y = prop)) +
+    geom_col(fill = "cyan") +
+    geom_text(aes(label = percent(prop)), vjust = -1) + ggtitle("Percent of JobInvolvement in YES Attrition") +
+    coord_cartesian(clip = "off") +
+    scale_y_continuous(labels = percent_format()) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle=45, hjust=1, vjust = 1),
+          axis.title = element_blank(),
+          plot.margin = margin(t = 20, r = 10, b = 10, l = 10))
+  
+  
+  
+  
+  
+  # Percent JobLevel Bar graph
+  
+  
+  CS2YesAttritselect %>% 
+    count(JobLevel) %>% 
+    mutate(prop = n/sum(n)) %>% 
+    ggplot(aes(x = JobLevel, y = prop)) +
+    geom_col(fill = "#067191") +
+    geom_text(aes(label = percent(prop)), vjust = -1) + ggtitle("Percent of JobLevel in YES Attrition") +
+    coord_cartesian(clip = "off") +
+    scale_y_continuous(labels = percent_format()) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle=45, hjust=1, vjust = 1),
+          axis.title = element_blank(),
+          plot.margin = margin(t = 20, r = 10, b = 10, l = 10))
+  
+  
+  
+  
+  # Percent NumCompaniesWorked Bar graph
+  
+  
+  CS2YesAttritselect %>% 
+    count(NumCompaniesWorked) %>% 
+    mutate(prop = n/sum(n)) %>% 
+    ggplot(aes(x = NumCompaniesWorked, y = prop)) +
+    geom_col(fill = "#F0BF1D") +
+    geom_text(aes(label = percent(prop)), vjust = -1) + ggtitle("Percent of NumCompaniesWorked in YES Attrition") +
+    coord_cartesian(clip = "off") +
+    scale_y_continuous(labels = percent_format()) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle=45, hjust=1, vjust = 1),
+          axis.title = element_blank(),
+          plot.margin = margin(t = 20, r = 10, b = 10, l = 10))
+  
+  
+  
+  # Percent RelationshipSatisfaction Bar graph
+  
+  
+  
+  CS2YesAttritselect %>% 
+    count(RelationshipSatisfaction) %>% 
+    mutate(prop = n/sum(n)) %>% 
+    ggplot(aes(x = RelationshipSatisfaction, y = prop)) +
+    geom_col(fill = "#DFFF00") +
+    geom_text(aes(label = percent(prop)), vjust = -1) + ggtitle("Percent of RelationshipSatisfaction in YES Attrition") +
+    coord_cartesian(clip = "off") +
+    scale_y_continuous(labels = percent_format()) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle=45, hjust=1, vjust = 1),
+          axis.title = element_blank(),
+          plot.margin = margin(t = 20, r = 10, b = 10, l = 10))
+  
+  
+  # Percent YearsWithCurrManager Bar graph 
+  
+  CS2YesAttritselect %>% 
+    count(YearsWithCurrManager) %>% 
+    mutate(prop = n/sum(n)) %>% 
+    ggplot(aes(x = YearsWithCurrManager, y = prop)) +
+    geom_col(fill = "#DE3163") +
+    geom_text(aes(label = percent(prop)), vjust = -1) + ggtitle("Percent of YearsWithCurrManager in YES Attrition") +
+    coord_cartesian(clip = "off") +
+    scale_y_continuous(labels = percent_format()) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle=45, hjust=1, vjust = 1),
+          axis.title = element_blank(),
+          plot.margin = margin(t = 20, r = 10, b = 10, l = 10))
+  
+  # Percent WorkLifeBalance Bar graph
+  
+  
+  CS2YesAttritselect %>% 
+    count(WorkLifeBalance) %>% 
+    mutate(prop = n/sum(n)) %>% 
+    ggplot(aes(x = WorkLifeBalance, y = prop)) +
+    geom_col(fill = "#e3740c") +
+    geom_text(aes(label = percent(prop)), vjust = -1) + ggtitle("Percent of WorkLifeBalance in YES Attrition") +
+    coord_cartesian(clip = "off") +
+    scale_y_continuous(labels = percent_format()) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle=45, hjust=1, vjust = 1),
+          axis.title = element_blank(),
+          plot.margin = margin(t = 20, r = 10, b = 10, l = 10))
+  
+  
+  # Percent YearsInCurrentRole Bar graph
+ 
+  CS2YesAttritselect %>% 
+    count(YearsInCurrentRole) %>% 
+    mutate(prop = n/sum(n)) %>% 
+    ggplot(aes(x = YearsInCurrentRole, y = prop)) +
+    geom_col(fill = "#CCCCFF") +
+    geom_text(aes(label = percent(prop)), vjust = -1) + ggtitle("Percent of YearsInCurrentRole in YES Attrition") +
+    coord_cartesian(clip = "off") +
+    scale_y_continuous(labels = percent_format()) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle=45, hjust=1, vjust = 1),
+          axis.title = element_blank(),
+          plot.margin = margin(t = 20, r = 10, b = 10, l = 10))
+  
+  
+  # Percent YearsAtCompany Bar graph
+  
+  
+  CS2YesAttritselect %>% 
+    count(YearsAtCompany) %>% 
+    mutate(prop = n/sum(n)) %>% 
+    ggplot(aes(x = YearsAtCompany, y = prop)) +
+    geom_col(fill = "#26af1c") +
+    geom_text(aes(label = percent(prop)), vjust = -1) + ggtitle("Percent of YearsAtCompany in YES Attrition") +
+    coord_cartesian(clip = "off") +
+    scale_y_continuous(labels = percent_format()) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle=45, hjust=1, vjust = 1),
+          axis.title = element_blank(),
+          plot.margin = margin(t = 20, r = 10, b = 10, l = 10))
+  
+  
+  
+  # Percent StockOptionLevel Bar graph
+  
+  
+  CS2YesAttritselect %>% 
+    count(StockOptionLevel) %>% 
+    mutate(prop = n/sum(n)) %>% 
+    ggplot(aes(x = StockOptionLevel, y = prop)) +
+    geom_col(fill = "#1e5dfa") +
+    geom_text(aes(label = percent(prop)), vjust = -1) + ggtitle("Percent of StockOptionLevel in YES Attrition") +
+    coord_cartesian(clip = "off") +
+    scale_y_continuous(labels = percent_format()) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle=45, hjust=1, vjust = 1),
+          axis.title = element_blank(),
+          plot.margin = margin(t = 20, r = 10, b = 10, l = 10))
+  
+  
+  # Percent PercentSalaryHike Bar graph
+  
+  
+  CS2YesAttritselect %>% 
+    count(PercentSalaryHike) %>% 
+    mutate(prop = n/sum(n)) %>% 
+    ggplot(aes(x = PercentSalaryHike, y = prop)) +
+    geom_col(fill = "#fa1eb1") +
+    geom_text(aes(label = percent(prop)), vjust = -1) + ggtitle("Percent of PercentSalaryHike in YES Attrition") +
+    coord_cartesian(clip = "off") +
+    scale_y_continuous(labels = percent_format()) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle=45, hjust=1, vjust = 1),
+          axis.title = element_blank(),
+          plot.margin = margin(t = 20, r = 10, b = 10, l = 10))
+  
+  
+  
+  
+  
+  
+  # Percent PercentSalaryHike ***As Factor*** Bar graph
+  
+  
+  CS2YesAttritselectAsFactor %>% 
+    count(PercentSalaryHike) %>% 
+    mutate(prop = n/sum(n)) %>% 
+    ggplot(aes(x = PercentSalaryHike, y = prop)) +
+    geom_col(fill = "#fa1eb1") +
+    geom_text(aes(label = percent(prop)), vjust = -1) + ggtitle("Percent of PercentSalaryHike in YES Attrition") +
+    coord_cartesian(clip = "off") +
+    scale_y_continuous(labels = percent_format()) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle=45, hjust=1, vjust = 1),
+          axis.title = element_blank(),
+          plot.margin = margin(t = 20, r = 10, b = 10, l = 10)) 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+```{r}
+  
+  CS2AttritselectKNN <- CaseStudy2_data %>% select(Attrition, Age, DistanceFromHome, EnvironmentSatisfaction, HourlyRate,
+                                                JobSatisfaction, Education, DailyRate, JobInvolvement, MonthlyIncome, JobLevel, MonthlyRate, NumCompaniesWorked,
+                                                PercentSalaryHike, PerformanceRating, EmployeeCount, RelationshipSatisfaction, YearsWithCurrManager,WorkLifeBalance,
+                                                YearsInCurrentRole, StockOptionLevel, PercentSalaryHike)
+  
+  
+  view(CS2AttritselectKNN)
+  
+  
+# KNN model numbers only
+
+set.seed(1)
+iterations = 500
+numks = 90
+splitPerc = .70
+
+masterAcc = matrix(nrow = iterations, ncol = numks)
+
+for(j in 1:iterations)
+{
+  trainIndices = sample(1:dim(CS2AttritselectKNN )[1],round(splitPerc * dim(CS2AttritselectKNN )[1]))
+  train = CS2AttritselectKNN [trainIndices,]
+  test = CS2AttritselectKNN [-trainIndices,]
+  for(i in 1:numks)
+  {
+    classifications = knn(train[,c(2:21)],test[,c(2:21)],train$Attrition, prob = TRUE, k = i)
+    table(classifications,test$Attrition)
+    CM = confusionMatrix(table(classifications,test$Attrition))
+    masterAcc[j,i] = CM$overall[1]
+  }
+  
+}
+
+MeanAcc = colMeans(masterAcc)
+
+plot(seq(1,numks,1),MeanAcc, type = "l")    
+
+
+
+confusionMatrix(table(knn.cv(CS2AttritselectKNN [,2:21],CS2AttritselectKNN $Attrition, k = 30), CS2AttritselectKNN $Attrition))
+QOI = data.frame(JobLevel = 1,WorkLifeBalance = 3)
+knn(CS2AttritselectKNN [,2:21],QOI,CS2AttritselectKNN $Attrition, prob = TRUE, k = 30)
+
+
+QOI = data.frame(JobLevel = 1,WorkLifeBalance = 3)
+```
+
+```{r}
+
+
+
+
+
+
+
+
+read.csv(CaseStudy2_data)
+
+
+# KNN model All factors
+
+set.seed(1)
+iterations = 500
+numks = 90
+splitPerc = .70
+
+masterAcc = matrix(nrow = iterations, ncol = numks)
+
+for(j in 1:iterations)
+{
+  trainIndices = sample(1:dim(CaseStudy2_data)[1],round(splitPerc * dim(CaseStudy2_data)[1]))
+  train = CaseStudy2_data [trainIndices,]
+  test = CaseStudy2_data [-trainIndices,]
+  for(i in 1:numks)
+  {
+    classifications = knn(train[,c(2,32)],test[,c(2,32)],train$Attrition, prob = TRUE, k = i)
+    table(classifications,test$Attrition)
+    CM = confusionMatrix(table(classifications,test$Attrition))
+    masterAcc[j,i] = CM$overall[1]
+  }
+  
+}
+
+MeanAcc = colMeans(masterAcc)
+
+plot(seq(1,numks,1),MeanAcc, type = "l")    
+
+
+
+confusionMatrix(table(knn.cv(CaseStudy2_data [,4:36],CaseStudy2_data $Attrition, k = 30), CaseStudy2_data $Attrition))
+QOI = CaseStudy2CompSet_No_Attrition
+knn(CaseStudy2_data [,4:36],QOI,CaseStudy2_data $Attrition, prob = TRUE, k = 30)
+
+
+
+```
+
+```{r}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# naiveBayes with CaseStudy2data
+
+
+AttritionBayes = read.csv(CaseStudy2_data,header = TRUE)
+AttritionBayes
+
+install.packages("e1071") #naiveBayes()
+library(e1071)
+
+model = naiveBayes(Attrition~.,data = AttritionBayes)
+predict(model,AttritionBayes[,c(2,5,7,8,12,14,15,16,18,22,25,26,27,29:36)])
+
+df = CaseStudy2CompSet_No_Attrition
+predict(model,df) #just classifications
+CaseStudy2CompSetLabeled <- predict(model,df, type = "raw") #gives probabilities 
+
+view(CaseStudy2CompSetLabeled)
+
+CaseStudy2CompSetLabeledNum <- cbind(CaseStudy2CompSetLabeled, CaseStudy2CompSet_No_Attrition$ID, make.row.names = TRUE,)
+view(CaseStudy2CompSetLabeledNum)
+
+
+write.csv(CaseStudy2CompSetLabeledNum,"H:/Schools/SMU/DoingDataScienceHomework/UnitOne/Unit One/Unit 14 and 15 Case Study 2/CaseStudy2PredictionsBowermanAttrition.csv", row.names = FALSE)
+
+# Make your own dataframe:
+
+# df = data.frame(JobLevel = "1", NumCompaniesWorked = "1", YearsWithCurrManager = 0, Education = 3, WorkLifeBalance = 3)
+# predict(model,df) #just classifications
+# predict(model,df, type = "raw") #gives probabilities 
+```
+
+
+
+
+
+
+    
+
+# comparison 3D graph with Attrition colored
+
+library(plotly)
+
+
+p <- plot_ly(CaseStudy2_data, x = ~WorkLifeBalance, y = ~StockOptionLevel, z = ~JobLevel, color = ~Attrition) %>%
+  add_markers() %>%
+  layout(scene = list(xaxis = list(title = 'WorkLifeBalance'),
+                      yaxis = list(title = 'StockOptionLevel'),
+                      zaxis = list(title = 'JobLevel')))
+p
+
+
+```
+
+
+```
+
+
+#   linear model of CaseStudy2CompSet for Salary
+```{r}
+library(tidyverse)
+library(reshape2)
+
+
+CaseStudy2_data %>% 
+  ggplot(aes(x = JobRole, y = MonthlyIncome)) + geom_point() + 
+  ggtitle("CaseStudy2_data: YearsAtCompany v. MonthlyIncome") + geom_smooth(method = "lm")
+  
+
+# degree 1 model
+fit = lm(MonthlyIncome~JobRole + JobLevel + Age, data = CaseStudy2_data)
+summary(fit)
+
+preds = predict(fit, newdata = CaseStudy2CompSet_No_Salary)
+preds
+CaseStudy2Predictions_Salary <- preds
+
+
+CaseStudy2Predictions_Bowerman_Salary <- cbind(CaseStudy2PredictionsBowerman_Salary, CaseStudy2CompSet_No_Salary$ID)
+
+
+view(CaseStudy2Predictions_Bowerman_Salary)
+
+
+write.csv(CaseStudy2Predictions_Bowerman_Salary,"H:/Schools/SMU/DoingDataScienceHomework/UnitOne/Unit One/Unit 14 and 15 Case Study 2/CaseStudy2Predictions_Bowerman_Salary.csv", row.names = TRUE)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CaseStudy2_data %>%
+  ggplot(aes(x = Attrition, y = DistanceFromHome, color = JobRole)) +
+  geom_point()
