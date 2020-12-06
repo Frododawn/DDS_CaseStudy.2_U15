@@ -20,27 +20,26 @@ library(e1071)
 library(tidyverse)
 library(scales)
 library(ggplot2)
+library(rmarkdown)
 
 
 
 
 
-setwd("H:\\Schools\\SMU\\DoingDataScienceHomework\\UnitOne\\Unit One\\Unit 14 and 15 Case Study 2\\DDS_CaseStudy.2_U15")
 
-
-CaseStudy2-data <- read.csv(file = 'CaseStudy2-data.csv')
-
-
-
-CaseStudy2-data %>% filter(!is.na(Attrition)) #Filter out rows with missing data
+CaseStudy2_data <- read.csv(file = "H:/Schools/SMU/DoingDataScienceHomework/UnitOne/Unit One/Unit 14 and 15 Case Study 2/DDS_CaseStudy.2_U15/CaseStudy2_data.csv/", header = TRUE)
 
 
 
-CS2YesAttrition <- CaseStudy2-data %>% filter(Attrition == "Yes")
+CaseStudy2_data %>% filter(!is.na(Attrition)) #Filter out rows with missing data
+
+
+
+
+
+
+CS2YesAttrition <- CaseStudy2_data %>% filter(Attrition == "Yes")
 view(CS2YesAttrition)
-
-
-
 
 
 CS2YesAttritselect <- CS2YesAttrition %>% select(Age, DistanceFromHome, EnvironmentSatisfaction, HourlyRate,
@@ -454,7 +453,7 @@ CS2YesAttritselect %>%
 library(plotly)
 
 
-p <- plot_ly(CaseStudy2-data, x = ~WorkLifeBalance, y = ~StockOptionLevel, z = ~JobLevel, color = ~Attrition) %>%
+p <- plot_ly(CaseStudy2_data, x = ~WorkLifeBalance, y = ~StockOptionLevel, z = ~JobLevel, color = ~Attrition) %>%
   add_markers() %>%
   layout(scene = list(xaxis = list(title = 'PercentPerformanceRating'),
                       yaxis = list(title = 'StockOptionLevel'),
@@ -470,9 +469,9 @@ p
   
 # KNN Classification is inadequate not enough data to predict a yes Attrition
 
-view(CaseStudy2-data)
+view(CaseStudy2_data)
 
-  CS2AttritselectKNN <- CaseStudy2-data %>% select(Attrition, Age, DistanceFromHome, EnvironmentSatisfaction, HourlyRate, JobSatisfaction, Education, DailyRate, JobInvolvement, MonthlyIncome, JobLevel, MonthlyRate, NumCompaniesWorked, PercentSalaryHike, PerformanceRating, EmployeeCount, RelationshipSatisfaction, YearsWithCurrManager,WorkLifeBalance, YearsInCurrentRole, StockOptionLevel, TotalWorkingYears, TrainingTimesLastYear, YearsAtCompany, YearsSinceLastPromotion)
+  CS2AttritselectKNN <- CaseStudy2_data %>% select(Attrition, Age, DistanceFromHome, EnvironmentSatisfaction, HourlyRate, JobSatisfaction, Education, DailyRate, JobInvolvement, MonthlyIncome, JobLevel, MonthlyRate, NumCompaniesWorked, PercentSalaryHike, PerformanceRating, EmployeeCount, RelationshipSatisfaction, YearsWithCurrManager,WorkLifeBalance, YearsInCurrentRole, StockOptionLevel, TotalWorkingYears, TrainingTimesLastYear, YearsAtCompany, YearsSinceLastPromotion)
   
   
   view(CS2AttritselectKNN)
@@ -510,7 +509,7 @@ plot(seq(1,numks,1),MeanAcc, type = "l")
 
 
 df = CaseStudy2CompSet_No_Attrition[,c(15,25,28)]
-Case2PredictionsKNNnum_Bowerman_Attrition <- knn(CaseStudy2-data[,c(16,26,29)], df, CaseStudy2-data$Attrition, k = 30, prob = TRUE)
+Case2PredictionsKNNnum_Bowerman_Attrition <- knn(CaseStudy2_data[,c(16,26,29)], df, CaseStudy2_data$Attrition, k = 30, prob = TRUE)
 
 head(Case2PredictionsKNNnum_Bowerman_Attrition)
 
@@ -527,9 +526,9 @@ write.csv(Case2PredictionsKNN_Bowerman_Attrition,"H:/Schools/SMU/DoingDataScienc
 
 # KNN Classification is inadequate not enough data to predict a yes Attrition
 
-view(CaseStudy2-data)
+view(CaseStudy2_data)
 
-  CS2AttritselectKNN <- CaseStudy2-data %>% select(Attrition, Age, DistanceFromHome, EnvironmentSatisfaction, HourlyRate, JobSatisfaction, Education, DailyRate, JobInvolvement, MonthlyIncome, JobLevel, MonthlyRate, NumCompaniesWorked, PercentSalaryHike, PerformanceRating, EmployeeCount, RelationshipSatisfaction, YearsWithCurrManager,WorkLifeBalance, YearsInCurrentRole, StockOptionLevel, TotalWorkingYears, TrainingTimesLastYear, YearsAtCompany, YearsSinceLastPromotion)
+  CS2AttritselectKNN <- CaseStudy2_data %>% select(Attrition, Age, DistanceFromHome, EnvironmentSatisfaction, HourlyRate, JobSatisfaction, Education, DailyRate, JobInvolvement, MonthlyIncome, JobLevel, MonthlyRate, NumCompaniesWorked, PercentSalaryHike, PerformanceRating, EmployeeCount, RelationshipSatisfaction, YearsWithCurrManager,WorkLifeBalance, YearsInCurrentRole, StockOptionLevel, TotalWorkingYears, TrainingTimesLastYear, YearsAtCompany, YearsSinceLastPromotion)
   
   
   view(CS2AttritselectKNN)
@@ -547,9 +546,9 @@ masterAcc = matrix(nrow = iterations, ncol = numks)
 
 for(j in 1:iterations)
 {
-  trainIndices = sample(1:dim(CaseStudy2-data)[1],round(splitPerc * dim(CaseStudy2-data)[1]))
-  train = CaseStudy2-data [trainIndices,]
-  test = CaseStudy2-data [-trainIndices,]
+  trainIndices = sample(1:dim(CaseStudy2_data)[1],round(splitPerc * dim(CaseStudy2_data)[1]))
+  train = CaseStudy2_data [trainIndices,]
+  test = CaseStudy2_data [-trainIndices,]
   for(i in 1:numks)
   {
     classifications = knn(train[,c(16,26,29)],test[,c(16,26,29)],train$Attrition, prob = TRUE, k = i)
@@ -567,7 +566,7 @@ plot(seq(1,numks,1),MeanAcc, type = "l")
 
 
 df = CaseStudy2CompSet_No_Attrition[,c(15,25,28)]
-Case2PredictionsKNN_Bowerman_Attrition <- knn(CaseStudy2-data[,c(16,26,29)], df, CaseStudy2-data$Attrition, k = 30, prob = TRUE)
+Case2PredictionsKNN_Bowerman_Attrition <- knn(CaseStudy2_data[,c(16,26,29)], df, CaseStudy2_data$Attrition, k = 30, prob = TRUE)
 
 Case2PredictionsKNNID_Bowerman_Attrition <- cbind(Case2PredictionsKNN_Bowerman_Attrition, ID = CaseStudy2CompSet_No_Attrition$ID)  
 
@@ -590,12 +589,12 @@ write.csv(Case2PredictionsKNNID_Bowerman_Attrition,"H:/Schools/SMU/DoingDataScie
 
 
 
-# naiveBayes Classification of CaseStudy2data 
+# naiveBayes Classification of CaseStudy2_data 
 
 
 
-model = naiveBayes(Attrition~.,data = CaseStudy2-data)
-predict(model,CaseStudy2-data[,c(2,5,7,8,12,14,15,16,18,22,25,26,27,29:36)])
+model = naiveBayes(Attrition~.,data = CaseStudy2_data)
+predict(model,CaseStudy2_data[,c(2,5,7,8,12,14,15,16,18,22,25,26,27,29:36)])
 
 df = CaseStudy2CompSet_No_Attrition[,c(2,4,6,7,11,13,14,15,17,21,24,25,26,28:35)]
 predict(model,df) #just classifications
@@ -620,22 +619,22 @@ c(15,25,28)
 
 ```{r}
 
-# Trying Random Forest Classification for the data:
+# Random Forest Classification seems to work better for the data:
 
 
 library(randomForest)
 library(caTools)
 
 
-head(CaseStudy2-data)
+head(CaseStudy2_data)
 
-summary(CaseStudy2-data)
+summary(CaseStudy2_data)
 
-sapply(CaseStudy2-data, class)
+sapply(CaseStudy2_data, class)
 
 
-CaseStudy2-data <- transform(
-  CaseStudy2-data,
+CaseStudy2_data <- transform(
+  CaseStudy2_data,
   Department=as.factor(Department),
   JobRole=as.factor(JobRole),
   Attrition=as.factor(Attrition),
@@ -665,18 +664,12 @@ CaseStudy2CompSet_No_Attrition <- transform(
 
 head(CaseStudy2CompSet_No_Attrition)
 
-head(CaseStudy2-data)
-summary(CaseStudy2-data)
+head(CaseStudy2_data)
+summary(CaseStudy2_data)
 
 
-# sample = sample.split(CaseStudy2-data$Attrition, SplitRatio = 0.75)
-# train = subset(CaseStudy2-data, sample == TRUE)
-# test  = subset(CaseStudy2-data, sample == FALSE)
-# dim(train)
-# dim(test)
 
-
-train = CaseStudy2-data
+train = CaseStudy2_data
 test = CaseStudy2CompSet_No_Attrition
 
 
@@ -717,28 +710,28 @@ library(reshape2)
 
 
 
-CaseStudy2-data %>% 
+CaseStudy2_data %>% 
   ggplot(aes(x = Age, y = MonthlyIncome)) + geom_point() + 
-  ggtitle("CaseStudy2-data: Age v. MonthlyIncome") + geom_smooth(method = "lm")
+  ggtitle("CaseStudy2_data: Age v. MonthlyIncome") + geom_smooth(method = "lm")
 
 
 
-CaseStudy2-data %>% 
+CaseStudy2_data %>% 
   ggplot(aes(x = JobRole, y = MonthlyIncome)) + geom_point() + 
-  ggtitle("CaseStudy2-data: Job Role v. MonthlyIncome") + geom_smooth(method = "lm")
+  ggtitle("CaseStudy2_data: Job Role v. MonthlyIncome") + geom_smooth(method = "lm")
   
 
 
-CaseStudy2-data %>% 
+CaseStudy2_data %>% 
   ggplot(aes(x = JobLevel, y = MonthlyIncome)) + geom_point() + 
-  ggtitle("CaseStudy2-data: Job Level v. MonthlyIncome") + geom_smooth(method = "lm")
+  ggtitle("CaseStudy2_data: Job Level v. MonthlyIncome") + geom_smooth(method = "lm")
 
 
 #   linear Prediction model of CaseStudy2CompSet for Salary
 
 
 
-fit = lm(MonthlyIncome~JobRole + JobLevel + Age, data = CaseStudy2-data)
+fit = lm(MonthlyIncome~JobRole + JobLevel + Age, data = CaseStudy2_data)
 summary(fit)
 
 preds = predict(fit, newdata = CaseStudy2CompSet_No_Salary)
