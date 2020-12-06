@@ -11,6 +11,14 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 
+#Link to the Powerpoint Youtube:
+  
+ #https://youtu.be/So_bm9BHsLY
+
+
+
+
+
 
 #Loading librarys, filtering, and checking for missing data
 
